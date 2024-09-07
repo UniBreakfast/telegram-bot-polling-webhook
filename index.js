@@ -38,47 +38,89 @@
 
 
 
+// const TelegramBot = require('node-telegram-bot-api');
+// const express = require('express');
+// const bodyParser = require('body-parser');
+
+// const token = '7279163483:AAH13MoAjiCH1WFeaAX-by5uUT0qLIpD24k';
+// const bot = new TelegramBot(token);
+// const app = express();
+
+// // Replace with your own URL and port
+// const PORT = process.env.PORT || 3000;
+// const WEBHOOK_URL = `https://telegram-bot-polling-webhook.onrender.com/${token}`;
+
+// // Middleware to parse incoming requests
+// app.use(bodyParser.json());
+
+// // Set the webhook
+// if (deploy === true) {
+//     bot.setWebHook(WEBHOOK_URL);
+// }
+
+// // Handle incoming messages
+// app.post(`/${token}`, (req, res) => {
+//     const msg = req.body;
+
+//     // Check if the message contains the command
+//     if (msg && msg.message && msg.message.text) {
+//         const chatId = msg.message.chat.id;
+//         const text = msg.message.text;
+
+//         // Check for the /echo command
+//         if (text.startsWith('/echo')) {
+//             const resp = text.split(' ').slice(1).join(' '); // Extract the response text
+//             bot.sendMessage(chatId, resp);
+//         }
+//     }
+
+//     // Respond with 200 OK to acknowledge receipt of the update
+//     res.sendStatus(200);
+// });
+
+// // Start the server
+// app.listen(PORT, () => {
+//     console.log(`Server is running on port ${PORT}`);
+// });
+
+
+
+
 const TelegramBot = require('node-telegram-bot-api');
 const express = require('express');
 const bodyParser = require('body-parser');
 
+// Replace 'YOUR_BOT_TOKEN' with your actual bot token
 const token = '7279163483:AAH13MoAjiCH1WFeaAX-by5uUT0qLIpD24k';
+// Replace 'YOUR_DOMAIN' with your server's domain or IP address
+const url = 'https://telegram-bot-polling-webhook.onrender.com';
+
 const bot = new TelegramBot(token);
 const app = express();
 
-// Replace with your own URL and port
-const PORT = process.env.PORT || 3000;
-const WEBHOOK_URL = `https://telegram-bot-polling-webhook.onrender.com/${token}`;
+// Set the webhook
+bot.setWebHook(`${url}/bot${token}`);
 
-// Middleware to parse incoming requests
 app.use(bodyParser.json());
 
-// Set the webhook
-if (deploy === true) {
-    bot.setWebHook(WEBHOOK_URL);
-}
-
-// Handle incoming messages
-app.post(`/${token}`, (req, res) => {
-    const msg = req.body;
-
-    // Check if the message contains the command
-    if (msg && msg.message && msg.message.text) {
-        const chatId = msg.message.chat.id;
-        const text = msg.message.text;
-
-        // Check for the /echo command
-        if (text.startsWith('/echo')) {
-            const resp = text.split(' ').slice(1).join(' '); // Extract the response text
-            bot.sendMessage(chatId, resp);
-        }
-    }
-
-    // Respond with 200 OK to acknowledge receipt of the update
-    res.sendStatus(200);
+app.post(`/bot${token}`, (req, res) => {
+  bot.processUpdate(req.body);
+  res.sendStatus(200);
 });
 
-// Start the server
-app.listen(PORT, () => {
-    console.log(`Server is running on port ${PORT}`);
+// Example command handler
+bot.onText(/\/start/, (msg) => {
+  const chatId = msg.chat.id;
+  bot.sendMessage(chatId, 'Hello! Welcome to your Telegram bot.');
+});
+
+// Example message handler
+bot.on('message', (msg) => {
+  const chatId = msg.chat.id;
+  bot.sendMessage(chatId, 'I received your message!');
+});
+
+// Start Express server
+app.listen(3000, () => {
+  console.log('Express server is listening on 3000');
 });
