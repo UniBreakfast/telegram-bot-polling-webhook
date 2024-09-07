@@ -88,6 +88,7 @@
 
 const TelegramBot = require('node-telegram-bot-api');
 const express = require('express');
+const bodyParser = require('body-parser');
 const app = express();
 const token = '7279163483:AAH13MoAjiCH1WFeaAX-by5uUT0qLIpD24k';
 const bot = new TelegramBot(token);
@@ -99,7 +100,7 @@ bot.on('message', (msg) => {
   bot.sendMessage(msg.chat.id, 'I received your message: ' + msg.text);
 });
 
-app.use(express.bodyParser.json());
+app.use(bodyParser.json());
 
 app.post(`/bot${token}`, (req, res) => {
   bot.processUpdate(req.body);
