@@ -22,7 +22,7 @@ const bot = new TelegramBot(token);
 const app = express();
 
 const PORT = process.env.PORT || 3000;
-const WEBHOOK_URL = `https://yourdomain.com:PORT/${token}`;
+const WEBHOOK_URL = `https://telegram-bot-polling-webhook.onrender.com/${token}`;
 
 // if (deploy === true) 
   bot.setWebHook(WEBHOOK_URL);
