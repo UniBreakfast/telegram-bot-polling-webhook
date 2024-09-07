@@ -100,7 +100,7 @@ bot.on('message', (msg) => {
   bot.sendMessage(msg.chat.id, 'I received your message: ' + msg.text);
 });
 
-app.use(bodyParser.json());
+// app.use(bodyParser.json());
 
 app.post(`/bot${token}`, (req, res) => {
   bot.processUpdate(req.body);
