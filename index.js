@@ -24,7 +24,7 @@ async function main() {
 
     await bot.setWebHook(`${url}/bot${token}`);
 
-    app.post(`/bot${token}`, (req, res) => {
+    app.post(`/bot${token}`, (req, res) => {                      console.log(req.body);
       bot.processUpdate(req.body);
       res.sendStatus(200);
     });
