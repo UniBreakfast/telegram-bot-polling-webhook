@@ -97,6 +97,7 @@ const url = 'https://telegram-bot-polling-webhook.onrender.com';
 
 const bot = new TelegramBot(token);
 const app = express();
+const PORT = process.env.PORT || 3000;
 
 // Set the webhook
 bot.setWebHook(`${url}/bot${token}`);
@@ -121,6 +122,6 @@ bot.on('message', (msg) => {
 });
 
 // Start Express server
-app.listen(3000, () => {
-  console.log('Express server is listening on 3000');
+app.listen(PORT, () => {
+  console.log('Express server is listening on ' + PORT);
 });
