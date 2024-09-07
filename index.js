@@ -24,7 +24,8 @@ const app = express();
 const PORT = process.env.PORT || 3000;
 const WEBHOOK_URL = `https://yourdomain.com:PORT/${token}`;
 
-if (deploy === true) bot.setWebHook(WEBHOOK_URL);
+// if (deploy === true) 
+  bot.setWebHook(WEBHOOK_URL);
 
 bot.onText(/\/echo (.+)/, (msg, match) => {
   const chatId = msg.chat.id;
