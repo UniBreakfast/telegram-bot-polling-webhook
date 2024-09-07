@@ -24,12 +24,12 @@ async function main() {
 
     await bot.setWebHook(`${url}/bot${token}`);
 
+    app.use(bodyParser.json());
+
     app.post(`/bot${token}`, (req, res) => {                      console.log(req.body);
       bot.processUpdate(req.body);
       res.sendStatus(200);
     });
-
-    app.use(bodyParser.json());
 
     app.listen(process.env.PORT || 3000);
 
