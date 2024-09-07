@@ -9,26 +9,29 @@ bot.on('message', (msg) => {
 });
 
 
-if (dev) {
-  bot.startPolling();
+main(); 
 
-} else {
+async function main() {
+  if (dev) {
+    bot.startPolling();
 
-  const express = require('express');
-  const bodyParser = require('body-parser');
-  const app = express();
-  const url = 'https://telegram-bot-polling-webhook.onrender.com';
+  } else {
 
-  var a = bot.setWebHook(`${url}/bot${token}`);
+    const express = require('express');
+    const bodyParser = require('body-parser');
+    const app = express();
+    const url = 'https://telegram-bot-polling-webhook.onrender.com';
 
-  var b = app.post(`/bot${token}`, (req, res) => {
-    bot.processUpdate(req.body);
-    res.sendStatus(200);
-  });
+    await bot.setWebHook(`${url}/bot${token}`);
 
-  var c = app.use(bodyParser.json())
+    app.post(`/bot${token}`, (req, res) => {
+      bot.processUpdate(req.body);
+      res.sendStatus(200);
+    });
 
-  var d = app.listen(process.env.PORT || 3000);
+    app.use(bodyParser.json());
 
-  console.log({ a, b, c, d });
-} 
+    app.listen(process.env.PORT || 3000);
+
+  }
+}
